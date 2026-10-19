@@ -8,7 +8,7 @@ and host runtime, the same code that runs [Catz](https://github.com/sp00nznet/ca
 Dogz and Oddballz. This repository holds only what is SimAnt's own: how to
 lift it, the few facts about the game the runtime needs, and the notes.
 
-![The recompiled SimAnt in a Quick Game: the black queen digging her first tunnel](docs/quick-game.png)
+![The recompiled SimAnt a minute into a Quick Game: the black queen has dug her tunnel and laid her first eggs](docs/quick-game.png)
 
 ## Status
 
@@ -16,10 +16,10 @@ lift it, the few facts about the game the runtime needs, and the notes.
 
 Every function lifts and links (12,612 lifted blocks, 0 unresolved calls).
 The game boots to its **Select a Game** screen with its own menu bar (File,
-Window, View, Options, Speed). Clicking **Quick Game** opens the nest view,
-and the black queen digs her first tunnel while the caste and behavior panels
-run beside it. All of it is the game's own code. Sound, some tool icons and
-much of the interface are still missing; see [ROADMAP.md](ROADMAP.md).
+Window, View, Options, Speed). Clicking **Quick Game** opens the nest view.
+Within a minute the black queen digs her tunnel and lays her first eggs, while
+the caste and behavior panels run beside it. All of it is the game's own code.
+Sound and parts of the interface are still missing; see [ROADMAP.md](ROADMAP.md).
 
 ![The Select a Game screen, with the game's menu bar](docs/select-a-game.png)
 
@@ -69,6 +69,13 @@ title gets them:
   `RecompGame.real_windows` gives it real geometry on a 640x480 virtual
   screen, and a maximized frame now means that screen rather than the host's
   desktop.
+- **Timer callbacks** ([#116](https://github.com/sp00nznet/pcrecomp/pull/116)):
+  the whole simulation runs in `MYTIMERFUNC`, the `TIMERPROC` passed to
+  `SetTimer`. The runtime used to post a plain `WM_TIMER` instead, so the colony
+  barely moved.
+- **WIN.INI**: the ribbon's eight user buttons are read from WIN.INI
+  `[SimAnt]` with `GetProfileInt`. When that call was a stub returning 0, all
+  eight showed the same tool.
 - **Mouse polling**: the game takes a click by polling `GetAsyncKeyState` and
   `GetCursorPos` (`_StillDown`, `_GetMousePos`) rather than trusting button
   messages. `scripts/grab.ps1 -Click x,y` drives the runtime's `RECOMP_CURSOR`

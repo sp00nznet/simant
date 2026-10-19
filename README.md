@@ -110,5 +110,12 @@ your copy of the game and is never committed. See [LICENSE](LICENSE).
 
 ## License
 
-MIT for what this repository holds. The game, its symbol file and everything
-lifted from it are not covered. See [LICENSE](LICENSE).
+[MIT](LICENSE), for what this repository holds: the build files, the relift
+script, `runtime/game.c` and the documentation.
+
+It does not cover SimAnt. The game, its executable, its symbol file
+(`SIMANTW.SYM`), its data, art, music and help are Maxis's, now Electronic
+Arts'. None of them is in this repository. The C that `tools/relift.py`
+generates from `SIMANTW.EXE` is a derivative of that executable. It is written
+into `work/` from your own copy and is never committed, and the MIT licence
+grants nothing in it.

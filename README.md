@@ -19,7 +19,8 @@ The game boots to its **Select a Game** screen with its own menu bar (File,
 Window, View, Options, Speed). Clicking **Quick Game** opens the nest view.
 Within a minute the black queen digs her tunnel and lays her first eggs, while
 the caste and behavior panels run beside it. All of it is the game's own code.
-Sound and parts of the interface are still missing; see [ROADMAP.md](ROADMAP.md).
+The MIDI themes play, and so do the sound effects. Parts of the interface are
+still missing; see [ROADMAP.md](ROADMAP.md).
 
 ![The Select a Game screen, with the game's menu bar](docs/select-a-game.png)
 
@@ -76,6 +77,12 @@ title gets them:
 - **WIN.INI**: the ribbon's eight user buttons are read from WIN.INI
   `[SimAnt]` with `GetProfileInt`. When that call was a stub returning 0, all
   eight showed the same tool.
+- **Sound** ([#118](https://github.com/sp00nznet/pcrecomp/pull/118)): SimAnt
+  doesn't import MMSYSTEM. It checks that `MMSYSTEM.DLL` is in the Windows
+  system directory, loads it with `LoadLibrary`, and takes each call with
+  `GetProcAddress`. The runtime answers those with its own MMSYSTEM: MCI for
+  the `SOUND\*.MID` music, and `sndPlaySound` for effects. Effects are muted
+  while the game isn't the active window, as they were on Windows 3.1.
 - **Mouse polling**: the game takes a click by polling `GetAsyncKeyState` and
   `GetCursorPos` (`_StillDown`, `_GetMousePos`) rather than trusting button
   messages. `scripts/grab.ps1 -Click x,y` drives the runtime's `RECOMP_CURSOR`

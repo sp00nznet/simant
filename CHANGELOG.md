@@ -3,6 +3,11 @@
 ## [Unreleased]
 
 ### Added
+- Music and sound effects, through the runtime's MMSYSTEM (pcrecomp #118).
+- The colony runs at speed: the simulation's timer callback is called
+  (pcrecomp #116). The ribbon's user buttons show their own tools.
+- `scripts/grab.ps1` activates the game window, so effects aren't muted, and
+  takes several clicks (`-Click "345,237","338,104"`, run with `&`).
 - First lift of `SIMANTW.EXE`: 12,612 lifted blocks, 0 unresolved calls,
   seeded from the game's own `SIMANTW.SYM`.
 - The game boots to its **Select a Game** screen: ribbon bar, title, the

@@ -40,12 +40,17 @@ $cursorFile = Join-Path (Get-Location) "work\cursor.txt"
 Set-Content $cursorFile "-1,-1,0"
 $env:RECOMP_CURSOR = "@$cursorFile"
 
+# The game reads the cursor file constantly; retry a write that collides.
+function Set-Cursor($t) {
+    for ($i = 0; $i -lt 50; $i++) { try { [IO.File]::WriteAllText($cursorFile, $t); return } catch { Start-Sleep -Milliseconds 10 } }
+}
+
 function Post-Click($h, [int]$x, [int]$y) {
     $r = New-Object G+RECT; [void][G]::GetWindowRect($h, [ref]$r)
     $target = $h
     $p = New-Object G+POINT; $p.X = $r.L + $x; $p.Y = $r.T + $y
     $v = $p; [void][G]::ScreenToClient($h, [ref]$v)
-    Set-Content $cursorFile "$($v.X),$($v.Y),1"
+    Set-Cursor "$($v.X),$($v.Y),1"
     while ($true) {                      # descend to the deepest visible child
         $q = $p; [void][G]::ScreenToClient($target, [ref]$q)
         $c = [G]::ChildWindowFromPointEx($target, $q, 1)   # CWP_SKIPINVISIBLE
@@ -56,7 +61,7 @@ function Post-Click($h, [int]$x, [int]$y) {
     $lp = [IntPtr](($q.Y -shl 16) -bor ($q.X -band 0xFFFF))
     [void][G]::PostMessageA($target, 0x0201, [IntPtr]1, $lp)   # WM_LBUTTONDOWN
     Start-Sleep -Milliseconds 200
-    Set-Content $cursorFile "$($v.X),$($v.Y),0"
+    Set-Cursor "$($v.X),$($v.Y),0"
     [void][G]::PostMessageA($target, 0x0202, [IntPtr]0, $lp)   # WM_LBUTTONUP
     "clicked ($x,$y) -> window $target at ($($q.X),$($q.Y))"
 }
@@ -67,6 +72,10 @@ Start-Sleep -Seconds $Wait
 $p.Refresh()
 if ($p.HasExited) { "exited early with $($p.ExitCode)"; exit 1 }
 $h = $p.MainWindowHandle
+# SimAnt pauses its sound effects while it isn't the active app, as it did on
+# Windows 3.1. Bring it forward so a scripted run hears what a player would.
+Add-Type -AssemblyName Microsoft.VisualBasic
+try { [Microsoft.VisualBasic.Interaction]::AppActivate($p.Id) } catch { }
 Save-Shot $h $Out
 $n = 0
 foreach ($c in @($Click)) {

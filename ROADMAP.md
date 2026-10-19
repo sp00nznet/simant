@@ -8,6 +8,7 @@
   callback (`MYTIMERFUNC`) runs.
 - The ribbon's user buttons show their own tools (WIN.INI `GetProfileInt`).
 - Most of the calls that were stubs now work (pcrecomp #116).
+- Music (MIDI through MCI) and sound effects (pcrecomp #118).
 
 ## Now: the Quick Game interface
 
@@ -21,16 +22,16 @@
   `TranslateAccelerator` (no keyboard shortcuts yet), `EnumChildWindows`,
   `Escape`.
 
-## Sound and music
+## Sound
 
-- **Sound effects** go through `SOUND.DAT` and the Windows 1–3 `SOUND.DRV`
-  voice-queue API (`OpenSound`, `SetVoiceNote`, `StartSound`), which Win32
-  doesn't have. That needs a small synthesiser, or a mapping onto
-  `waveOut`/SDL.
-- **Music** is MIDI (`SOUND\*.MID`). The game loads `MMSYSTEM.DLL` at run
-  time with `LoadLibrary` and `GetProcAddress` (`mciSendCommand`,
-  `midiOutGetNumDevs`, `waveOut*`). That's what `RecompGame.proc_address` and
-  host thunks are for.
+- **One voice.** Effects go through `sndPlaySound`, so a new sound cuts off
+  the one playing. Real `waveOut` would let them overlap the way the game's
+  own queue expects.
+- **Sample rate.** The game asks for 4096 Hz. Check that it sounds right
+  against the original.
+- **PC speaker.** Without MMSYSTEM the game falls back to the `SOUND.DRV`
+  voice queue (`OpenSound`, `SetVoiceNote`), which is still a stub. Nothing
+  reaches it while MMSYSTEM works.
 
 ## Afterwards
 

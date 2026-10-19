@@ -9,6 +9,7 @@
 - The ribbon's user buttons show their own tools (WIN.INI `GetProfileInt`).
 - Most of the calls that were stubs now work (pcrecomp #116).
 - Music (MIDI through MCI) and sound effects (pcrecomp #118).
+- Keyboard shortcuts: Shift+0 pauses, Shift+1-4 set the speed (pcrecomp #119).
 
 ## Now: the Quick Game interface
 
@@ -18,9 +19,7 @@
   1992. Check that each Speed setting changes the pace.
 - **Fonts.** The game asks for `font5` and `font6`, which aren't in this
   install.
-- **Still unimplemented:** `ScrollWindow`, `LoadAccelerators` and
-  `TranslateAccelerator` (no keyboard shortcuts yet), `EnumChildWindows`,
-  `Escape`.
+- **Still unimplemented:** `ScrollWindow`, `EnumChildWindows`, `Escape`.
 
 ## Sound
 

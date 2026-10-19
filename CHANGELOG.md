@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Added
+- Keyboard shortcuts, from the game's own accelerator table (pcrecomp #119).
 - Music and sound effects, through the runtime's MMSYSTEM (pcrecomp #118).
 - The colony runs at speed: the simulation's timer callback is called
   (pcrecomp #116). The ribbon's user buttons show their own tools.

@@ -8,4 +8,7 @@ const RecompGame recomp_game = {
     /* SIMANT.CFG sits beside the EXE; the game opens its DATs by bare name. */
     .ini_fallbacks = { NULL },
     .path_anchor = NULL,
+    /* A ribbon bar, the play area and floating panels, all real child windows
+       the game measures and hit-tests against. */
+    .real_windows = 1,
 };

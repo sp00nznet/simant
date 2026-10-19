@@ -8,17 +8,20 @@ and host runtime, the same code that runs [Catz](https://github.com/sp00nznet/ca
 Dogz and Oddballz. This repository holds only what is SimAnt's own: how to
 lift it, the few facts about the game the runtime needs, and the notes.
 
-![The recompiled SimAnt at its Select a Game screen](docs/select-a-game.png)
+![The recompiled SimAnt in a Quick Game: the black queen digging her first tunnel](docs/quick-game.png)
 
 ## Status
 
-**Pre-alpha: it boots to its game-select screen.**
+**Pre-alpha: a Quick Game starts and the colony simulates.**
 
 Every function lifts and links (12,612 lifted blocks, 0 unresolved calls).
-The game runs its C startup and WinMain, registers its window classes, reads
-`SIMANT.CFG`, opens its `SHARED`, `WINGANT` and `SOUND` databases, and draws
-its ribbon bar, title screen and **Select a Game** dialog, all from the game's
-own code. It has not been played past that screen. See [ROADMAP.md](ROADMAP.md).
+The game boots to its **Select a Game** screen with its own menu bar (File,
+Window, View, Options, Speed). Clicking **Quick Game** opens the nest view,
+and the black queen digs her first tunnel while the caste and behavior panels
+run beside it. All of it is the game's own code. Sound, some tool icons and
+much of the interface are still missing; see [ROADMAP.md](ROADMAP.md).
+
+![The Select a Game screen, with the game's menu bar](docs/select-a-game.png)
 
 | | |
 |---|---|
@@ -60,6 +63,16 @@ title gets them:
   resync exactly onto the next instruction.
 - **36 missing purges** and nine shims (`GetFreeSpace`, `GlobalCompact`,
   `TextOut`, `SetProp`, `wvsprintf`, …).
+- **Real menus** ([#115](https://github.com/sp00nznet/pcrecomp/pull/115)):
+  `ANTMENU` is built from the game's own `RT_MENU` resource.
+- **Real child windows**: SimAnt measures its ribbon, play area and panels.
+  `RecompGame.real_windows` gives it real geometry on a 640x480 virtual
+  screen, and a maximized frame now means that screen rather than the host's
+  desktop.
+- **Mouse polling**: the game takes a click by polling `GetAsyncKeyState` and
+  `GetCursorPos` (`_StillDown`, `_GetMousePos`) rather than trusting button
+  messages. `scripts/grab.ps1 -Click x,y` drives the runtime's `RECOMP_CURSOR`
+  file, so a scripted click works without moving the real mouse.
 
 ## Building
 
@@ -82,7 +95,8 @@ ninja -C build
 build/simant.exe
 ```
 
-`scripts/grab.ps1` runs the game and saves its window to `work/grab.png`.
+`scripts/grab.ps1` runs the game and saves its window to `work/grab.png`;
+`-Click 345,237` (screenshot coordinates) presses Quick Game and saves a second shot.
 
 The lifted C is written to `work/`, which is gitignored. It is a derivative of
 your copy of the game and is never committed. See [LICENSE](LICENSE).

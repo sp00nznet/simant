@@ -1,0 +1,33 @@
+# Your own copy of the game: binaries and data. Not ours, not redistributable.
+game/
+
+# Everything derived from the game's binaries: lifted C, IDA code maps, the flat
+# memory image and generated headers. Regenerate with tools/relift.py; never
+# commit (see README, "Building").
+work/
+
+# Build output
+build*/
+
+# Python
+__pycache__/
+*.pyc
+
+# IDA databases (written next to the binaries it analyses)
+*.i64
+*.idb
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+
+# Recordings and screenshots made while testing (committed ones live in docs/)
+*.mp4
+/*.png
+/*.bmp
+
+# Relift log
+work_relift.log
+# Logs from local runs
+*.log

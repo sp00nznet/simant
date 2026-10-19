@@ -19,17 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-## Scope
-
-The grant above covers what this repository holds: the build files, the
-relift script, `runtime/game.c` and the documentation.
-
-It does not cover SimAnt. The game, its executable, its symbol file
-(`SIMANTW.SYM`), its data, art, music and help are Maxis's, now Electronic
-Arts'. None of them is in this repository. The C that `tools/relift.py`
-generates from `SIMANTW.EXE` is a derivative of that executable. It is written
-into `work/` from your own copy and is never committed, and this licence grants
-nothing in it.
